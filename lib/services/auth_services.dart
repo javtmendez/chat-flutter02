@@ -65,10 +65,16 @@ class AuthServices with ChangeNotifier {
     String nombre,
     String email,
     String password,
+    String nombreempresa,
   ) async {
     this.autenticando = true;
 
-    final data = {'email': email, 'password': password, 'nombre': nombre};
+    final data = {
+      'email': email,
+      'password': password,
+      'nombre': nombre,
+      'nombreempresa': nombreempresa
+    };
 
     final uri = Uri.parse('${Environment.apiUrl}/login/new');
     final resp = await http.post(

@@ -1,3 +1,4 @@
+import 'package:chat_flutter/services/socket_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -51,9 +52,12 @@ class __FormState extends State<_Form> {
   final emailCtrl = TextEditingController();
   final passCtrl = TextEditingController();
   final nameCtrl = TextEditingController();
+  final nombreEmpresaCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthServices>(context);
+    final socketService = Provider.of<SocketService>(context);
+
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -64,6 +68,12 @@ class __FormState extends State<_Form> {
             placeholder: "Nombre",
             keyboardType: TextInputType.name,
             textController: this.nameCtrl,
+          ),
+          CustomInput(
+            icon: Icons.business_outlined,
+            placeholder: "Nombre Empresa",
+            keyboardType: TextInputType.name,
+            textController: this.nombreEmpresaCtrl,
           ),
           CustomInput(
             icon: Icons.mail_outline,
@@ -91,9 +101,11 @@ class __FormState extends State<_Form> {
                   nameCtrl.text.trim(),
                   emailCtrl.text.trim(),
                   passCtrl.text.trim(),
+                  nombreEmpresaCtrl.text.trim(),
                 );
 
                 if (registroOk == true) {
+                  socketService.connect();
                   Navigator.pushReplacementNamed(context, 'usuario');
                 } else {
                   mostrarAlerta(context, 'Registro incorrecto', registroOk);
